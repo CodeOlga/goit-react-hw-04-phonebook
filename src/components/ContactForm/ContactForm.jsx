@@ -70,9 +70,11 @@ const ContactForm = ({ onFormSubmit, contacts }) => {
           </label>
           <button className={css.formButton} type='submit' >Add contact</button>
           <Toaster
+            position='top-right'
             toastOptions={{
-              duration: 2000,
+              duration: 1500,
               style: {
+                borderRadius: '20px',
               padding: '16px',
               color: '#b83b5e',
             }
