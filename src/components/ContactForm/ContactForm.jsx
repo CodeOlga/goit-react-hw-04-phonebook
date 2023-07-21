@@ -1,49 +1,52 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import toast, { Toaster } from 'react-hot-toast';
 import css from './ContactForm.module.css'
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: ''
-  }
+const ContactForm = ({ onFormSubmit, contacts }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-handleChange = e => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    this.setState({[name]: value})
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        break;
+    }
   }
 
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
-    this.reset();
+    reset();
 
-    const isNameExist = this.props.contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
+    const isNameExist = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
       if (isNameExist) {
-        alert(`${name} is already in contacts.`);
+        toast.error(`${name} is already in contacts.`);
         return
       }
     
-    this.props.onFormSubmit({ name, number });
-  };
-
-  //to clear form
-  reset = () => {
-    this.setState({name: '', number: ''})
+    onFormSubmit({ name, number });
   }
 
-  render() {
-      const { name, number} = this.state;
-      return (
+  const reset = () => {
+    setName('')
+    setNumber('')
+  }
 
-        <form className={css.formContainer} onSubmit={this.handleSubmit}>
+      return (
+        <form className={css.formContainer} onSubmit={handleSubmit}>
           <label className={css.formLabel}>
             Name
             <input
               className={css.formInput}
               value={name}
-              onChange={this.handleChange}
+              onChange={handleChange}
               type="text"
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -57,7 +60,7 @@ handleChange = e => {
             <input
               className={css.formInput}
               value={number}
-              onChange={this.handleChange}
+              onChange={handleChange}
               type="tel"
               name="number"
               pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
@@ -66,9 +69,17 @@ handleChange = e => {
             />
           </label>
           <button className={css.formButton} type='submit' >Add contact</button>
+          <Toaster
+            toastOptions={{
+              duration: 2000,
+              style: {
+              border: '1px solid #b83b5e',
+              padding: '16px',
+              color: '#b83b5e',
+            }
+          }}/>
         </form>
     )
-  }
 }
 
 ContactForm.propTypes = {
@@ -78,4 +89,7 @@ ContactForm.propTypes = {
 }
 
 export default ContactForm;
+
+
+
 
