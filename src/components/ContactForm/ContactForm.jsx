@@ -73,7 +73,6 @@ const ContactForm = ({ onFormSubmit, contacts }) => {
             toastOptions={{
               duration: 2000,
               style: {
-              border: '1px solid #b83b5e',
               padding: '16px',
               color: '#b83b5e',
             }
