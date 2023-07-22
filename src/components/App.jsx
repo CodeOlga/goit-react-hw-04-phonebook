@@ -6,7 +6,10 @@ import ContactForm from './ContactForm/ContactForm';
 import css from './App.module.css';
 
 const App = () => {
-  const [contacts, setContacts] = useState(JSON.parse(localStorage.getItem('contacts')) ?? []);
+  //lazy state initialization
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(localStorage.getItem('contacts')) ?? []
+  });
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
